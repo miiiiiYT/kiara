@@ -6,8 +6,6 @@ import aiohttp
 import json
 from datetime import datetime
 
-from nextcord.ext.commands.converter import is_generic_type
-
 timestamp = int(datetime.now().timestamp())
 print(timestamp)
 
