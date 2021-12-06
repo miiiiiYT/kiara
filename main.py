@@ -1,5 +1,4 @@
 # Import
-from os import name
 import nextcord
 from nextcord.ext import commands
 import random
@@ -184,7 +183,7 @@ mainshop = [{"name":"Watch","price":100,"description":"Time"},
             {"name":"Laptop","price":1000,"description":"Work"},
             {"name":"PC","price":10000,"description":"Gaming"},
             {"name":"Ferrari","price":99999,"description":"Sports Car"},
-            {"name":"Premium Economy","price":4500,"description":"Sit in Premium Economy Class in flights"},
+            {"name":"Premium Economy","price":100,"description":"Sit in Premium Economy Class in flights"},
             {"name":"Bussiness Class","price":150,"description":"Sit in Bussiness Class in flights"},
             {"name":"First Class","price":250,"description":"Sit in First Class in flights"}]
 
