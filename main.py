@@ -300,7 +300,7 @@ async def rob(ctx,member : nextcord.Member):
 
 
     if bal[0]<100:
-        await ctx.send('It is useless to rob him :(')
+        await ctx.send('It is useless to rob him... *they are poor*')
         return
 
     earning = random.randrange(0,bal[0])
