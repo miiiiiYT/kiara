@@ -1,6 +1,6 @@
 # Import
-import nextcord
-from nextcord.ext import commands
+import discord as nextcord
+from discord.ext import commands
 import random
 import aiohttp
 import json
@@ -176,7 +176,7 @@ async def avatar(ctx, member: nextcord.Member = None):
     else:
         await ctx.reply(member.avatar)
 
-'''# Economy
+# Economy
 mainshop = [{"name":"Watch","price":100,"description":"Time"},
             {"name":"Laptop","price":1000,"description":"Work"},
             {"name":"PC","price":10000,"description":"Gaming"},
@@ -202,6 +202,7 @@ async def balance(ctx):
     await ctx.send(embed= em)
 
 @client.command()
+@commands.cooldown(2,200,commands.BucketType.user)
 async def beg(ctx):
     await open_account(ctx.author)
     user = ctx.author
@@ -291,6 +292,7 @@ async def send(ctx,member : nextcord.Member,amount = None):
 
 
 @client.command(aliases=['rb'])
+@commands.cooldown(1,200,commands.BucketType.user)
 async def rob(ctx,member : nextcord.Member):
     await open_account(ctx.author)
     await open_account(member)
@@ -309,6 +311,7 @@ async def rob(ctx,member : nextcord.Member):
 
 
 @client.command()
+@commands.cooldown(1,200,commands.BucketType.user)
 async def slots(ctx,amount = None):
     await open_account(ctx.author)
     if amount == None:
@@ -572,7 +575,7 @@ async def update_bank(user,change=0,mode = 'wallet'):
     with open('mainbank.json','w') as f:
         json.dump(users,f)
     bal = users[str(user.id)]['wallet'],users[str(user.id)]['bank']
-    return bal'''
+    return bal
 
 # Errors
 @client.event
@@ -587,6 +590,8 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.MissingPermissions):
         await ctx.reply("Imagine having no perms, 🤣")
         print(f"The user does not have the permissions")
+    elif isinstance(error, commands.CommandOnCooldown):
+        await ctx.reply("Calm down buddy. The command you are using is still on **cooldown**.Try again in {:.2f}s".format(error.retry_after))
 
 
 @age.error
