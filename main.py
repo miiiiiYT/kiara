@@ -12,56 +12,56 @@ timestamp = int(datetime.now().timestamp())
 print(timestamp)
 
 
-# Custom Prefixes
-def get_prefix(client, message):  # first we define get_prefix
-    with open('prefixes.json', 'r') as f:  # we open and read the prefixes.json, assuming it's in the same file
-        prefixes = json.load(f)  # load the json as prefixes
-    return prefixes[str(message.guild.id)]  # recieve the prefix for the guild id given
+# # Custom Prefixes
+# def get_prefix(client, message):  # first we define get_prefix
+#     with open('prefixes.json', 'r') as f:  # we open and read the prefixes.json, assuming it's in the same file
+#         prefixes = json.load(f)  # load the json as prefixes
+#     return prefixes[str(message.guild.id)]  # recieve the prefix for the guild id given
 
 
 client = commands.Bot(
-    command_prefix=(get_prefix),
+    command_prefix=("f!"),
 )
 
 
-@client.event
-async def on_guild_join(guild):  # when the bot joins the guild
-    with open('prefixes.json', 'r') as f:  # read the prefix.json file
-        prefixes = json.load(f)  # load the json file
+# @client.event
+# async def on_guild_join(guild):  # when the bot joins the guild
+#     with open('prefixes.json', 'r') as f:  # read the prefix.json file
+#         prefixes = json.load(f)  # load the json file
 
-    prefixes[str(guild.id)] = '?'  # default prefix
+#     prefixes[str(guild.id)] = '?'  # default prefix
 
-    with open('prefixes.json', 'w') as f:  # write in the prefix.json "message.guild.id": "bl!"
-        json.dump(prefixes, f, indent=4)  # the indent is to make everything look a bit neater
-
-
-@client.event
-async def on_guild_remove(guild):  # when the bot is removed from the guild
-    with open('prefixes.json', 'r') as f:  # read the file
-        prefixes = json.load(f)
-
-    prefixes.pop(str(guild.id))  # find the guild.id that bot was removed from
-
-    with open('prefixes.json', 'w') as f:  # deletes the guild.id as well as its prefix
-        json.dump(prefixes, f, indent=4)
+#     with open('prefixes.json', 'w') as f:  # write in the prefix.json "message.guild.id": "bl!"
+#         json.dump(prefixes, f, indent=4)  # the indent is to make everything look a bit neater
 
 
-@client.command(pass_context=True)
-@commands.has_permissions(administrator=True)  # ensure that only administrators can use this command
-async def changeprefix(ctx, prefix):  # command: bl!changeprefix ...
-    print("Changeprefix command used")
-    with open('prefixes.json', 'r') as f:
-        prefixes = json.load(f)
+# @client.event
+# async def on_guild_remove(guild):  # when the bot is removed from the guild
+#     with open('prefixes.json', 'r') as f:  # read the file
+#         prefixes = json.load(f)
 
-    prefixes[str(ctx.guild.id)] = prefix
+#     prefixes.pop(str(guild.id))  # find the guild.id that bot was removed from
 
-    with open('prefixes.json', 'w') as f:  # writes the new prefix into the .json
-        json.dump(prefixes, f, indent=4)
-        print(f"Prefix changed to {prefix}")
+#     with open('prefixes.json', 'w') as f:  # deletes the guild.id as well as its prefix
+#         json.dump(prefixes, f, indent=4)
 
-    await ctx.send(f'Prefix changed to: `{prefix}`')
-    print("Change prefix message sent")  # confirms the prefix it's been changed to
-    # next step completely optional: changes bot nickname to also have prefix in the nickname
+
+# @client.command(pass_context=True)
+# @commands.has_permissions(administrator=True)  # ensure that only administrators can use this command
+# async def changeprefix(ctx, prefix):  # command: bl!changeprefix ...
+#     print("Changeprefix command used")
+#     with open('prefixes.json', 'r') as f:
+#         prefixes = json.load(f)
+
+#     prefixes[str(ctx.guild.id)] = prefix
+
+#     with open('prefixes.json', 'w') as f:  # writes the new prefix into the .json
+#         json.dump(prefixes, f, indent=4)
+#         print(f"Prefix changed to {prefix}")
+
+#     await ctx.send(f'Prefix changed to: `{prefix}`')
+#     print("Change prefix message sent")  # confirms the prefix it's been changed to
+#     # next step completely optional: changes bot nickname to also have prefix in the nickname
 
 
 @client.event
@@ -69,12 +69,12 @@ async def on_message(msg):
     try:
         if msg.mentions[0] == client.user:
             print("The bot was mentioned")
-            with open("prefixes.json", "r") as f:
-                prefixes = json.load(f)
-            pre = prefixes[str(msg.guild.id)]
+            # with open("prefixes.json", "r") as f:
+            #     prefixes = json.load(f)
+            # pre = prefixes[str(msg.guild.id)]
 
-            await msg.channel.send(f"My prefix for this server is `{pre}`")
-            print(f"Prefix for {msg.guild.id} is {pre} and was given.")
+            await msg.channel.send(f"My prefix is `f!`")
+            # print(f"Prefix for {msg.guild.id} is {pre} and was given.")
 
     except:
         pass
@@ -88,13 +88,13 @@ async def on_ready():
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="over Finnair"))
 
 # Commands
-'''#Custom messages
-@client.command()
-async def custom_message(message):
-    channel_1 = client.get_channel(894953882424320080)
-    embed=discord.Embed(title="Annoucement!", description="Ping - <@&894557281931391047>")
-    embed.add_field(name="Annoucement signed by Metolix", value="The economy system will be shutdown again cause we need to switch to a database from JSON files. Stay tuned here for more info when the economy system is back. You don't need to worry about your balance it will be backed up.")
-    await channel_1.send(embed=embed)'''
+# #Custom messages
+# @client.command()
+# async def custom_message(message):
+#     channel_1 = client.get_channel(894953882424320080)
+#     embed=discord.Embed(title="Annoucement!", description="Ping - <@&894557281931391047>")
+#     embed.add_field(name="Annoucement signed by Metolix", value="The economy system will be shutdown again cause we need to switch to a database from JSON files. Stay tuned here for more info when the economy system is back. You don't need to worry about your balance it will be backed up.")
+#     await channel_1.send(embed=embed)
 #Seats
 @client.command()
 async def seats(ctx):
