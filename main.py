@@ -1,5 +1,5 @@
 # Import
-import discord as nextcord
+import discord
 from discord.ext import commands
 import random
 import aiohttp
@@ -84,20 +84,20 @@ async def on_message(msg):
 @client.event
 async def on_ready():
     print("Ready")
-    await client.change_presence(status=nextcord.Status.online, activity=nextcord.Game("Default prefix - ?"))
+    await client.change_presence(status=discord.Status.online, activity=discord.Game("Default prefix - ?"))
 
 # Commands
 '''#Custom messages
 @client.command()
 async def custom_message(message):
     channel_1 = client.get_channel(894953882424320080)
-    embed=nextcord.Embed(title="Annoucement!", description="Ping - <@&894557281931391047>")
+    embed=discord.Embed(title="Annoucement!", description="Ping - <@&894557281931391047>")
     embed.add_field(name="Annoucement signed by Metolix", value="The economy system will be shutdown again cause we need to switch to a database from JSON files. Stay tuned here for more info when the economy system is back. You don't need to worry about your balance it will be backed up.")
     await channel_1.send(embed=embed)'''
 #Seats
 @client.command()
 async def seats(ctx):
-    embed = nextcord.Embed(title="How to get seats")
+    embed = discord.Embed(title="How to get seats")
     embed.add_field(name="Tutorial - ", value="First you buy the seat by saying `f!buy [seat]` you can see the seats by typing `f!shop`. Now buy the seat and go to <#917329394039656449> and send your picture of the bag. To get the bag type `f!bag`. Only do this if you have purchased the seat you want.")
     await ctx.reply(embed=embed)
 # Ping
@@ -106,8 +106,8 @@ async def ping(ctx):
     print("Ping command used")
     latency = round(client.latency * 1000)
     print(f"Got the latency: {latency}")
-    embed = nextcord.Embed(title="Ping command.", description="Tells the latency of the bot.",
-                           color=nextcord.Color.random())
+    embed = discord.Embed(title="Ping command.", description="Tells the latency of the bot.",
+                           color=discord.Color.random())
     embed.add_field(name="Pong!", value=f"Latency: {latency}")
     await ctx.reply(embed=embed)
     print("Ping sent")
@@ -129,8 +129,8 @@ async def age(ctx, year=None):
         return ()
 
     age = 2021 - int(year)
-    embed = nextcord.Embed(title="Age command", description="Tells the age with the year they are born",
-                           color=nextcord.Colour.random())
+    embed = discord.Embed(title="Age command", description="Tells the age with the year they are born",
+                           color=discord.Colour.random())
     embed.add_field(name=f"Year Given : {year}", value=f"They shall be {age} years old.")
     await ctx.reply(embed=embed)
     print(f"The year was {year}. And their age was {age}. Age sent.")
@@ -146,9 +146,9 @@ async def time(ctx):
 # Meme
 @client.command(pass_context=True)
 async def meme(ctx):
-    embed = nextcord.Embed(title="Meme command",
+    embed = discord.Embed(title="Meme command",
                            description="Get a random meme, WARNING: **WE DON'T MAKE THE MEMES, IF YOU GET ANY NSFW WE ARE NOT RESPONSIBLE**",
-                           color=nextcord.Colour.random())
+                           color=discord.Colour.random())
 
     async with aiohttp.ClientSession() as cs:
         async with cs.get('https://www.reddit.com/r/dankmemes/new.json?sort=hot') as r:
@@ -161,7 +161,7 @@ async def meme(ctx):
 # Kick command
 @client.command()
 @commands.has_permissions(kick_members=True)
-async def kick(ctx, member: nextcord.Member, *, reason=None):
+async def kick(ctx, member: discord.Member, *, reason=None):
     if reason==None:
       reason=" no reason provided"
     await ctx.guild.kick(member)
@@ -169,7 +169,7 @@ async def kick(ctx, member: nextcord.Member, *, reason=None):
 #Ban command
 @client.command()
 @commands.has_permissions(ban_members=True)
-async def ban(ctx, member: nextcord.Member, *, reason=None):
+async def ban(ctx, member: discord.Member, *, reason=None):
     if reason==None:
       reason=" no reason provided"
     await ctx.guild.ban(member)
@@ -177,7 +177,7 @@ async def ban(ctx, member: nextcord.Member, *, reason=None):
 
 #Avatar
 @client.command(aliases=["av", "Av", "AV", "aV"])
-async def avatar(ctx, member: nextcord.Member = None):
+async def avatar(ctx, member: discord.Member = None):
     if member == None:
         await ctx.reply(ctx.message.author.avatar)
     else:
@@ -198,10 +198,10 @@ async def balance(ctx):
 
 	net_amt = int(wallet_amt + bank_amt)
 
-	em = nextcord.Embed(
+	em = discord.Embed(
 			title= f"{user.name}'s Balance",
 			description= f"Wallet: {wallet_amt}\nBank: {bank_amt}",
-			color=nextcord.Color(0x00ff00)
+			color=discord.Color(0x00ff00)
 		)
 
 	await ctx.send(embed=em)
