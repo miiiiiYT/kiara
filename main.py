@@ -6,7 +6,7 @@ import aiohttp
 import json
 from datetime import datetime
 from pymongo import MongoClient
-from .token_var import token
+from token_var import token
 
 timestamp = int(datetime.now().timestamp())
 print(timestamp)
@@ -112,7 +112,6 @@ async def ping(ctx):
     embed.add_field(name="Pong!", value=f"Latency: {latency}")
     await ctx.reply(embed=embed)
     print("Ping sent")
-
 
 # Age command
 @client.command()
