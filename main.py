@@ -6,7 +6,7 @@ import aiohttp
 import json
 from datetime import datetime
 from pymongo import MongoClient
-from token_var import token
+from .token_var import token
 
 timestamp = int(datetime.now().timestamp())
 print(timestamp)
