@@ -209,7 +209,7 @@ async def beg(ctx):
 
     users = await get_bank_data()
 
-    earnings = random.randrange(101)
+    earnings = random.randrange(52)
 
     await ctx.send(f'{ctx.author.mention} Got {earnings} FinCoins!!')
 
