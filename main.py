@@ -1,4 +1,5 @@
 # Import
+from os import name
 import discord
 from discord.ext import commands
 import random
@@ -84,7 +85,7 @@ async def on_message(msg):
 @client.event
 async def on_ready():
     print("Ready")
-    await client.change_presence(status=discord.Status.online, activity=discord.Game("Default prefix - ?"))
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="over Finnair"))
 
 # Commands
 '''#Custom messages
