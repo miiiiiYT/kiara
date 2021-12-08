@@ -6,7 +6,6 @@ import aiohttp
 import json
 from datetime import datetime
 from pymongo import MongoClient
-from token_var import token
 
 timestamp = int(datetime.now().timestamp())
 print(timestamp)
@@ -339,4 +338,4 @@ async def age_error(ctx, error):
 
 
 # Run
-client.run(token)
+client.run("OTE2Njg5NTEzNzQzNTIzODkw.Yatzow.XkN9q0LZ9Zbym4Z6BV30TLn3aI8")
