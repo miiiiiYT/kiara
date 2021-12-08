@@ -19,9 +19,7 @@ print(timestamp)
 #     return prefixes[str(message.guild.id)]  # recieve the prefix for the guild id given
 
 
-client = commands.Bot(
-    command_prefix=("f!"),
-)
+client = commands.Bot(command_prefix=("f!"), help_command=None)
 
 
 # @client.event
@@ -88,6 +86,14 @@ async def on_ready():
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="over Finnair"))
 
 # Commands
+
+# Help message
+@client.command()
+async def help(ctx):
+    embed = discord.Embed(title="Help")
+    embed.add_field(name="WIP", value="WIP")
+    await ctx.reply(embed=embed)
+
 # #Custom messages
 # @client.command()
 # async def custom_message(message):
