@@ -87,6 +87,7 @@ async def on_ready():
 
 
 # Commands
+#Seats
 @client.command()
 async def seats(ctx):
     embed = nextcord.Embed(title="How to get seats")
@@ -540,7 +541,7 @@ async def leaderboard(ctx,x = 1):
         else:
             index += 1
 
-    await ctx.send(embed = em)
+    await ctx.send(embed=em)
 
 
 async def open_account(user):
