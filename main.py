@@ -6,6 +6,9 @@ import aiohttp
 import json
 from datetime import datetime
 from pymongo import MongoClient
+import requests
+import asyncio
+from token_var import token
 
 timestamp = int(datetime.now().timestamp())
 print(timestamp)
@@ -184,6 +187,19 @@ async def avatar(ctx, member: nextcord.Member = None):
     else:
         await ctx.reply(member.avatar)
 
+# Inspire
+def get_quote():
+    response = requests.get("https://zenquotes.io/api/random")
+    json_data = json.loads(response.text)
+    quote = json_data[0]['q'] + " -" + json_data[0]['a']
+    return(quote)
+@client.command()
+async def inspire(ctx):
+    quote = get_quote
+    embed = nextcord.Embed(name="Inspirational Quote", color=nextcord.Color.random())
+    embed.add_field(name="Quote - ", value=quote)
+    await ctx.reply(embed=embed)
+
 # Economy
 @client.command(aliases=["bal"])
 @commands.guild_only()
@@ -339,4 +355,4 @@ async def age_error(ctx, error):
 
 
 # Run
-client.run("OTE1OTExNDM3NjM1OTQ0NDY4.Yaie_w.U87lcxWdojlRMLgau8mofBsZ2rE")
+client.run(token)
