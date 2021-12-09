@@ -1,12 +1,10 @@
 # Import
-from os import name
 import discord
 from discord.ext import commands
 import random
 import aiohttp
 import json
 from datetime import datetime
-from pymongo import MongoClient
 import requests
 import asyncio
 from token_var import token
@@ -22,7 +20,7 @@ print(timestamp)
 #     return prefixes[str(message.guild.id)]  # recieve the prefix for the guild id given
 
 
-client = commands.Bot(command_prefix=("f!"), help_command=None)
+client = commands.Bot(command_prefix=("f!"))
 
 
 # @client.event
@@ -89,13 +87,6 @@ async def on_ready():
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="over Finnair"))
 
 # Commands
-
-# Help message
-@client.command()
-async def help(ctx):
-    embed = discord.Embed(title="Help")
-    embed.add_field(name="WIP", value="WIP")
-    await ctx.reply(embed=embed)
 
 # #Custom messages
 # @client.command()
@@ -201,142 +192,12 @@ def get_quote():
     return(quote)
 @client.command()
 async def inspire(ctx):
-    quote = get_quote
-    embed = discord.Embed(name="Inspirational Quote", color=discord.Color.random())
+    quote = get_quote()
+    embed = discord.Embed(title="Inspirational Quote", color=discord.Color.random())
     embed.add_field(name="Quote - ", value=quote)
+    embed.add_field(name="Quotes provided by ZenQuotes", url="zenquotes.io")
     await ctx.reply(embed=embed)
 
-# Economy
-@client.command(aliases=["bal"])
-@commands.guild_only()
-async def balance(ctx):
-	user = ctx.author
-
-	await open_bank(user)
-
-	users = await get_bank_data(user)
-
-	wallet_amt = users[0]
-	bank_amt = users[1]
-
-	net_amt = int(wallet_amt + bank_amt)
-
-	em = discord.Embed(
-			title= f"{user.name}'s Balance",
-			description= f"Wallet: {wallet_amt}\nBank: {bank_amt}",
-			color=discord.Color(0x00ff00)
-		)
-
-	await ctx.send(embed=em)
-
-
-@client.command(aliases=["with"])
-@commands.guild_only()
-async def withdraw(ctx, *,amount= None):
-    user = ctx.author
-    await open_bank(user)
-
-    users = await get_bank_data(user)
-
-    bank_amt = users[1]
-
-    if amount.lower() == "all" or amount.lower() == "max":
-        await update_bank(user, +1*bank_amt)
-        await update_bank(user, -1*bank_amt, "bank")
-        await ctx.send(f"{user.mention} you withdrew {bank_amt} in your wallet")
-
-    amount = int(amount)
-
-    if amount > bank_amt:
-        await ctx.send(f"{user.mention} You don't have that enough money!")
-        return
-
-    if amount < 0:
-        await ctx.send(f"{user.mention} enter a valid amount !")
-        return
-
-    await update_bank(user, +1 * amount)
-    await update_bank(user, -1 * amount, "bank")
-
-    await ctx.send(f"{user.mention} you withdrew **{amount}** from your **Bank!**")
-
-
-@client.command(aliases=["dep"])
-@commands.guild_only()
-async def deposit(ctx, *,amount= None):
-    user = ctx.author
-    await open_bank(user)
-
-    users = await get_bank_data(user)
-
-    wallet_amt = users[0]
-
-    if amount.lower() == "all" or amount.lower() == "max":
-        await update_bank(user, -1*wallet_amt)
-        await update_bank(user, +1*wallet_amt, "bank")
-        await ctx.send(f"{user.mention} you withdrew {wallet_amt} in your wallet")
-
-    amount = int(amount)
-
-    if amount > wallet_amt:
-        await ctx.send(f"{user.mention} You don't have that enough money!")
-        return
-
-    if amount < 0:
-        await ctx.send(f"{user.mention} enter a valid amount !")
-        return
-
-    await update_bank(user, -1 * amount)
-    await update_bank(user, +1 * amount, "bank")
-
-    await ctx.send(f"{user.mention} you withdrew **{amount}** from your **Bank!**")
-# Bank Funcs
-auth_url = "mongodb+srv://Sidhak_3810:<Sidhak@3810>@main.c546s.mongodb.net/Cluster0?retryWrites=true&w=majority"
-
-
-async def open_bank(user):
-    cluster = MongoClient(auth_url)
-    db = cluster["Cluster0"]
-
-    cursor = db["main"]
-
-    try:
-        post = {"_id": user.id, "wallet": 5000, "bank": 0}
-
-        cursor.insert_one(post)
-
-    except:
-        pass
-
-
-async def get_bank_data(user):
-    cluster = MongoClient(auth_url)
-    db = cluster["Cluster0"]
-
-    cursor = db["main"]
-
-    user_data = cursor.find({"_id": user.id})
-
-    cols = ["wallet", "bank"]
-
-    data = []
-
-    for mode in user_data:
-        for col in cols:
-            data1 = mode[str(col)]
-
-            data.append(data1)
-
-    return data
-
-
-async def update_bank(user, amount=0, mode="wallet"):
-    cluster = MongoClient(auth_url)
-    db = cluster["Cluster0"]
-
-    cursor = db["main"]
-
-    cursor.update_one({"_id": user.id}, {"$inc": {str(mode): amount}})
 # Errors
 @client.event
 async def on_command_error(ctx, error):
