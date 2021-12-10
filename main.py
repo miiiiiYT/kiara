@@ -5,8 +5,8 @@ import random
 import aiohttp
 import json
 from datetime import datetime
+from discord.message import Message
 import requests
-import asyncio
 from token_var import token
 
 timestamp = int(datetime.now().timestamp())
@@ -87,7 +87,6 @@ async def on_ready():
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="over Finnair"))
 
 # Commands
-
 # #Custom messages
 # @client.command()
 # async def custom_message(message):
@@ -192,11 +191,15 @@ def get_quote():
     return(quote)
 @client.command()
 async def inspire(ctx):
-    quote = get_quote()
-    embed = discord.Embed(title="Inspirational Quote", color=discord.Color.random())
-    embed.add_field(name="Quote - ", value=quote)
-    embed.add_field(name="Quotes provided by ZenQuotes", url="zenquotes.io")
-    await ctx.reply(embed=embed)
+    try:
+        await ctx.reply("The API has some problems getting the quote, The messages may appear slow.")
+        quote = get_quote()
+        embed = discord.Embed(title="Inspirational Quote", color=discord.Color.random())
+        embed.add_field(name="Quote - ", value=quote)
+        embed.add_field(name="Quotes provided by ZenQuotes", value="https://zenquotes.io (Not sponsered)")
+        await ctx.reply(embed=embed)
+    except:
+        await ctx.reply("Maybe the API is down. Something is wrong here......")
 
 # Errors
 @client.event
