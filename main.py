@@ -7,7 +7,10 @@ import json
 from datetime import datetime
 from discord.message import Message
 import requests
+<<<<<<< HEAD
 from token_var import token
+=======
+>>>>>>> b4de6c3bc0f0645a6af3aaf09fd833e852d71abd
 
 timestamp = int(datetime.now().timestamp())
 print(timestamp)
@@ -225,4 +228,4 @@ async def age_error(ctx, error):
 
 
 # Run
-client.run(token)
+client.run("OTE1OTExNDM3NjM1OTQ0NDY4.Yaie_w.U87lcxWdojlRMLgau8mofBsZ2rE")
