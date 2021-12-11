@@ -11,60 +11,7 @@ import requests
 timestamp = int(datetime.now().timestamp())
 print(timestamp)
 
-<<<<<<< HEAD
-
-# # Custom Prefixes
-# def get_prefix(client, message):  # first we define get_prefix
-#     with open('prefixes.json', 'r') as f:  # we open and read the prefixes.json, assuming it's in the same file
-#         prefixes = json.load(f)  # load the json as prefixes
-#     return prefixes[str(message.guild.id)]  # recieve the prefix for the guild id given
-
-
-client = commands.Bot(command_prefix=("??"))
-
-
-# @client.event
-# async def on_guild_join(guild):  # when the bot joins the guild
-#     with open('prefixes.json', 'r') as f:  # read the prefix.json file
-#         prefixes = json.load(f)  # load the json file
-
-#     prefixes[str(guild.id)] = '?'  # default prefix
-
-#     with open('prefixes.json', 'w') as f:  # write in the prefix.json "message.guild.id": "bl!"
-#         json.dump(prefixes, f, indent=4)  # the indent is to make everything look a bit neater
-
-
-# @client.event
-# async def on_guild_remove(guild):  # when the bot is removed from the guild
-#     with open('prefixes.json', 'r') as f:  # read the file
-#         prefixes = json.load(f)
-
-#     prefixes.pop(str(guild.id))  # find the guild.id that bot was removed from
-
-#     with open('prefixes.json', 'w') as f:  # deletes the guild.id as well as its prefix
-#         json.dump(prefixes, f, indent=4)
-
-
-# @client.command(pass_context=True)
-# @commands.has_permissions(administrator=True)  # ensure that only administrators can use this command
-# async def changeprefix(ctx, prefix):  # command: bl!changeprefix ...
-#     print("Changeprefix command used")
-#     with open('prefixes.json', 'r') as f:
-#         prefixes = json.load(f)
-
-#     prefixes[str(ctx.guild.id)] = prefix
-
-#     with open('prefixes.json', 'w') as f:  # writes the new prefix into the .json
-#         json.dump(prefixes, f, indent=4)
-#         print(f"Prefix changed to {prefix}")
-
-#     await ctx.send(f'Prefix changed to: `{prefix}`')
-#     print("Change prefix message sent")  # confirms the prefix it's been changed to
-#     # next step completely optional: changes bot nickname to also have prefix in the nickname
-
-=======
 client = commands.Bot(command_prefix=("f!"), help_command=None)
->>>>>>> 087dedd6261d1690045c85432df2b40c0cbc5ad1
 
 @client.event
 async def on_message(msg):
@@ -87,12 +34,8 @@ async def on_message(msg):
 @client.event
 async def on_ready():
     print("Ready")
-<<<<<<< HEAD
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="My devs code me for beta version"))
-=======
     print(f'Logged in as {client.user} (ID: {client.user.id})')
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="over Finnair"))
->>>>>>> 087dedd6261d1690045c85432df2b40c0cbc5ad1
 
 @client.command()
 async def help(ctx):
@@ -101,22 +44,11 @@ async def help(ctx):
     await ctx.send(embed=embed)
 
 # Commands
-<<<<<<< HEAD
 # Custom message
 @client.command()
 @commands.has_permissions(administrator=True)
 async def custom_msg(ctx, *, channel : discord.TextChannel, text=None):
     await ctx.channel.send(text)
-=======
-# #Custom messages
-# @client.command()
-# async def custom_message(message):
-#     channel_1 = client.get_channel(894953882424320080)
-#     embed=discord.Embed(title="Annoucement!", description="Ping - <@&894557281931391047>")
-#     embed.add_field(name="Annoucement signed by Metolix", value="The economy system will be shutdown again cause we need to switch to a database from JSON files. Stay tuned here for more info when the economy system is back. You don't need to worry about your balance it will be backed up.")
-#     await channel_1.send(embed=embed)
-
->>>>>>> 087dedd6261d1690045c85432df2b40c0cbc5ad1
 #Seats
 @client.command()
 async def seats(ctx):
