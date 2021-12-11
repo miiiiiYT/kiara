@@ -11,6 +11,7 @@ import requests
 timestamp = int(datetime.now().timestamp())
 print(timestamp)
 
+<<<<<<< HEAD
 
 # # Custom Prefixes
 # def get_prefix(client, message):  # first we define get_prefix
@@ -61,6 +62,9 @@ client = commands.Bot(command_prefix=("??"))
 #     print("Change prefix message sent")  # confirms the prefix it's been changed to
 #     # next step completely optional: changes bot nickname to also have prefix in the nickname
 
+=======
+client = commands.Bot(command_prefix=("f!"), help_command=None)
+>>>>>>> 087dedd6261d1690045c85432df2b40c0cbc5ad1
 
 @client.event
 async def on_message(msg):
@@ -83,14 +87,36 @@ async def on_message(msg):
 @client.event
 async def on_ready():
     print("Ready")
+<<<<<<< HEAD
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="My devs code me for beta version"))
+=======
+    print(f'Logged in as {client.user} (ID: {client.user.id})')
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="over Finnair"))
+>>>>>>> 087dedd6261d1690045c85432df2b40c0cbc5ad1
+
+@client.command()
+async def help(ctx):
+    embed = discord.Embed(title="Help")
+    embed.add_field(name="WIP", value="WIP")
+    await ctx.send(embed=embed)
 
 # Commands
+<<<<<<< HEAD
 # Custom message
 @client.command()
 @commands.has_permissions(administrator=True)
 async def custom_msg(ctx, *, channel : discord.TextChannel, text=None):
     await ctx.channel.send(text)
+=======
+# #Custom messages
+# @client.command()
+# async def custom_message(message):
+#     channel_1 = client.get_channel(894953882424320080)
+#     embed=discord.Embed(title="Annoucement!", description="Ping - <@&894557281931391047>")
+#     embed.add_field(name="Annoucement signed by Metolix", value="The economy system will be shutdown again cause we need to switch to a database from JSON files. Stay tuned here for more info when the economy system is back. You don't need to worry about your balance it will be backed up.")
+#     await channel_1.send(embed=embed)
+
+>>>>>>> 087dedd6261d1690045c85432df2b40c0cbc5ad1
 #Seats
 @client.command()
 async def seats(ctx):
