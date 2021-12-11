@@ -34,6 +34,7 @@ async def on_message(msg):
 @client.event
 async def on_ready():
     print("Ready")
+    print(f'Logged in as {client.user} (ID: {client.user.id})')
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="over Finnair"))
 
 # Commands
