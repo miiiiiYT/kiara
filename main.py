@@ -7,10 +7,6 @@ import json
 from datetime import datetime
 from discord.message import Message
 import requests
-<<<<<<< HEAD
-from token_var import token
-=======
->>>>>>> b4de6c3bc0f0645a6af3aaf09fd833e852d71abd
 
 timestamp = int(datetime.now().timestamp())
 print(timestamp)
@@ -87,7 +83,7 @@ async def on_message(msg):
 @client.event
 async def on_ready():
     print("Ready")
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="over Finnair"))
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="My devs code me for beta version"))
 
 # Commands
 # #Custom messages
