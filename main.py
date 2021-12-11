@@ -19,7 +19,7 @@ print(timestamp)
 #     return prefixes[str(message.guild.id)]  # recieve the prefix for the guild id given
 
 
-client = commands.Bot(command_prefix=("f!"))
+client = commands.Bot(command_prefix=("??"))
 
 
 # @client.event
@@ -86,13 +86,11 @@ async def on_ready():
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="My devs code me for beta version"))
 
 # Commands
-# #Custom messages
-# @client.command()
-# async def custom_message(message):
-#     channel_1 = client.get_channel(894953882424320080)
-#     embed=discord.Embed(title="Annoucement!", description="Ping - <@&894557281931391047>")
-#     embed.add_field(name="Annoucement signed by Metolix", value="The economy system will be shutdown again cause we need to switch to a database from JSON files. Stay tuned here for more info when the economy system is back. You don't need to worry about your balance it will be backed up.")
-#     await channel_1.send(embed=embed)
+# Custom message
+@client.command()
+@commands.has_permissions(administrator=True)
+async def custom_msg(ctx, *, channel : discord.TextChannel, text=None):
+    await ctx.channel.send(text)
 #Seats
 @client.command()
 async def seats(ctx):
@@ -190,15 +188,12 @@ def get_quote():
     return(quote)
 @client.command()
 async def inspire(ctx):
-    try:
-        await ctx.reply("The API has some problems getting the quote, The messages may appear slow.")
-        quote = get_quote()
-        embed = discord.Embed(title="Inspirational Quote", color=discord.Color.random())
-        embed.add_field(name="Quote - ", value=quote)
-        embed.add_field(name="Quotes provided by ZenQuotes", value="https://zenquotes.io (Not sponsered)")
-        await ctx.reply(embed=embed)
-    except:
-        await ctx.reply("Maybe the API is down. Something is wrong here......")
+    await ctx.reply("The API has some problems getting the quote, The messages may appear slow.")
+    quote = get_quote()
+    embed = discord.Embed(title="Inspirational Quote", color=discord.Color.random())
+    embed.add_field(name="Quote - ", value=quote)
+    embed.add_field(name="Quotes provided by ZenQuotes", value="https://zenquotes.io (Not sponsered)")
+    await ctx.reply(embed=embed)
 
 # Errors
 @client.event
