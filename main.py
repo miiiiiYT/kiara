@@ -11,7 +11,7 @@ import requests
 timestamp = int(datetime.now().timestamp())
 print(timestamp)
 
-client = commands.Bot(command_prefix=("f!"))
+client = commands.Bot(command_prefix=("f!"), help_command=None)
 
 @client.event
 async def on_message(msg):
@@ -37,6 +37,12 @@ async def on_ready():
     print(f'Logged in as {client.user} (ID: {client.user.id})')
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="over Finnair"))
 
+@client.command()
+async def help(ctx):
+    embed = discord.Embed(title="Help")
+    embed.add_field(name="WIP", value="WIP")
+    await ctx.send(embed=embed)
+
 # Commands
 # #Custom messages
 # @client.command()
@@ -45,6 +51,7 @@ async def on_ready():
 #     embed=discord.Embed(title="Annoucement!", description="Ping - <@&894557281931391047>")
 #     embed.add_field(name="Annoucement signed by Metolix", value="The economy system will be shutdown again cause we need to switch to a database from JSON files. Stay tuned here for more info when the economy system is back. You don't need to worry about your balance it will be backed up.")
 #     await channel_1.send(embed=embed)
+
 #Seats
 @client.command()
 async def seats(ctx):
