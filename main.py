@@ -43,12 +43,20 @@ async def help(ctx):
     embed.add_field(name="WIP", value="WIP")
     await ctx.send(embed=embed)
 
+# Methods
+
+# Used for constructing an embed on the fly
+def embed_construct(title: str, message: str):
+    em_out = discord.Embed(title=title) 
+    em_out.add_field(value=message)
+
 # Commands
 # Custom message
 @client.command()
 @commands.has_permissions(administrator=True)
 async def custom_msg(ctx, *, channel : discord.TextChannel, text=None):
     await ctx.channel.send(text)
+
 #Seats
 @client.command()
 async def seats(ctx):
@@ -119,15 +127,15 @@ async def meme(ctx):
 async def kick(ctx, member: discord.Member, *, reason=None):
     if reason==None:
       reason=" no reason provided"
-    await ctx.guild.kick(member)
+    await ctx.guild.kick(member, reason=reason)
     await ctx.send(f'User {member.mention} has been kicked for {reason}')
 #Ban command
 @client.command()
 @commands.has_permissions(ban_members=True)
 async def ban(ctx, member: discord.Member, *, reason=None):
     if reason==None:
-      reason=" no reason provided"
-    await ctx.guild.ban(member)
+        reason=" no reason provided"
+    await ctx.guild.ban(member, reason=reason)
     await ctx.send(f'User {member.mention} has been kicked for {reason}')
 
 #Avatar
