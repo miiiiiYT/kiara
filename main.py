@@ -49,6 +49,7 @@ async def help(ctx):
 def embed_construct(title: str, message: str):
     em_out = discord.Embed(title=title) 
     em_out.add_field(value=message)
+    return em_out
 
 # Commands
 # Custom message
