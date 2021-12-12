@@ -1,33 +1,26 @@
 # Import
-from functools import _Descriptor
-import discord
-from discord.ext import commands
 import random
 import aiohttp
 import json
 from datetime import datetime
-from discord.message import Message
+from discord import embeds
 import requests
 
-timestamp = int(datetime.now().timestamp())
+import discord
+from discord.ext import commands
+from discord.message import Message
+
+timestamp = int(datetime.now().timestamp()) # printing time
 print(timestamp)
 
-client = commands.Bot(command_prefix=("f!"), help_command=None)
+client = commands.Bot(command_prefix=("f!"), help_command=None) # initializing bot
 
-@client.event
+# sends the prefix when @mentioned
+@client.event 
 async def on_message(msg):
-    try:
-        if msg.mentions[0] == client.user:
-            print("The bot was mentioned")
-            # with open("prefixes.json", "r") as f:
-            #     prefixes = json.load(f)
-            # pre = prefixes[str(msg.guild.id)]
-
-            await msg.channel.send(f"My prefix is `f!`")
-            # print(f"Prefix for {msg.guild.id} is {pre} and was given.")
-
-    except:
-        pass
+    if msg.mentions[0] == client.user:
+        print("The bot was mentioned")
+        await msg.channel.send(f"My prefix is `f!`")
     await client.process_commands(msg)
 
 
@@ -38,6 +31,7 @@ async def on_ready():
     print(f'Logged in as {client.user} (ID: {client.user.id})')
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="over Finnair"))
 
+# Help command
 @client.command()
 async def help(ctx):
     embed = discord.Embed(title="Help", description="hey")
@@ -51,20 +45,20 @@ async def help(ctx):
 async def custom_msg(ctx, *, channel : discord.TextChannel, text=None):
     await ctx.channel.send(text)
 
-#Seats
+#Seats - WIP
 @client.command()
 async def seats(ctx):
     embed = discord.Embed(title="How to get seats")
     embed.add_field(name="Tutorial - ", value="First you buy the seat by saying `f!buy [seat]` you can see the seats by typing `f!shop`. Now buy the seat and go to <#917329394039656449> and send your picture of the bag. To get the bag type `f!bag`. Only do this if you have purchased the seat you want.")
     await ctx.reply(embed=embed)
+
 # Ping
 @client.command()
 async def ping(ctx):
     print("Ping command used")
-    latency = round(client.latency * 1000)
+    latency = round(client.latency * 1000) # gets client latency
     print(f"Got the latency: {latency}")
-    embed = discord.Embed(title="Ping command.", description="Tells the latency of the bot.",
-                           color=discord.Color.random())
+    embed = discord.Embed(title="Ping command.", description="Tells the latency of the bot.")
     embed.add_field(name="Pong!", value=f"Latency: {latency}")
     await ctx.reply(embed=embed)
     print("Ping sent")
@@ -104,14 +98,14 @@ async def time(ctx):
 @client.command(pass_context=True)
 async def meme(ctx):
     embed = discord.Embed(title="Meme command",
-                           description="Get a random meme, WARNING: **WE DON'T MAKE THE MEMES, IF YOU GET ANY NSFW WE ARE NOT RESPONSIBLE**",
+                           description="Gets a random meme.",
                            color=discord.Colour.random())
 
-    async with aiohttp.ClientSession() as cs:
-        async with cs.get('https://www.reddit.com/r/dankmemes/new.json?sort=hot') as r:
+    async with aiohttp.ClientSession() as cs: # initialize http session
+        async with cs.get('https://www.reddit.com/r/dankmemes/new.json?sort=hot') as r: #get r/dankmemes
             res = await r.json()
             print("Got the meme")
-            embed.set_image(url=res['data']['children'][random.randint(0, 25)]['data']['url'])
+            embed.set_image(url=res['data']['children'][random.randint(0, 25)]['data']['url']) # strip the json
             await ctx.send(embed=embed)
             print("Meme sent")
 
@@ -120,7 +114,7 @@ async def meme(ctx):
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member, *, reason=None):
     if member == None:
-        await ctx.send(embed=discord.Embed(description='You have to supply a user!'))
+        await ctx.send(embed=discord.Embed(description='You have to supply a user!')) 
         return
     if reason==None:
       reason=" no reason provided"
@@ -140,7 +134,7 @@ async def ban(ctx, member: discord.Member, *, reason=None):
     await ctx.send(embed=discord.Embed(description='User {0} has been banned!\nReason: {1}'.format(member.mention, reason)))
 
 #Avatar
-@client.command(aliases=["av", "Av", "AV", "aV"])
+@client.command(aliases=["av", "Av", "AV", "aV"]) # aliases for some reason
 async def avatar(ctx, member: discord.Member = None):
     if member == None:
         await ctx.reply(ctx.message.author.avatar)
@@ -149,13 +143,13 @@ async def avatar(ctx, member: discord.Member = None):
 
 # Inspire
 def get_quote():
-    response = requests.get("https://zenquotes.io/api/random")
+    response = requests.get("https://zenquotes.io/api/random") # queries api
     json_data = json.loads(response.text)
-    quote = json_data[0]['q'] + " -" + json_data[0]['a']
+    quote = json_data[0]['q'] + " -" + json_data[0]['a'] # strips json
     return(quote)
+
 @client.command()
 async def inspire(ctx):
-    await ctx.reply("The API has some problems getting the quote, The messages may appear slow.")
     quote = get_quote()
     embed = discord.Embed(title="Inspirational Quote", color=discord.Color.random())
     embed.add_field(name="Quote - ", value=quote)
@@ -166,24 +160,18 @@ async def inspire(ctx):
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
-        with open("prefixes.json", "r") as f:
-            prefixes = json.load(f)
-        pre = prefixes[str(ctx.guild.id)]
-        await ctx.reply(f"Command not found :/ Use `{pre}help` for more info on commands.")
-        print("Invalid command used, command not found")
-        return ()
+        await ctx.reply(f"Command not found :/ Use `f!help` for more info on commands.")
+        return
     elif isinstance(error, commands.MissingPermissions):
-        await ctx.reply("Imagine having no perms, 🤣")
-        print(f"The user does not have the permissions")
+        await ctx.reply(embed=discord.Embed(description='You do not have sufficient permissions!'))
     elif isinstance(error, commands.CommandOnCooldown):
-        await ctx.reply("Calm down buddy. The command you are using is still on **cooldown**.Try again in {:.2f}s".format(error.retry_after))
+        await ctx.reply(embed=discord.Embed(description="Woah! Command still on cooldown for {:.2f} seconds.".format(error.retry_after)))
 
 
 @age.error
 async def age_error(ctx, error):
     if isinstance(error, commands.CommandInvokeError):
-        await ctx.reply("Please make sure you are using an integer.")
-
+        await ctx.reply(embed=discord.Embed(description="Please make sure you are using an integer."))
 
 # Run
 client.run("OTE2Njg5NTEzNzQzNTIzODkw.Yatzow.BzJT_8lbLyuNP3BONowktb__XAw")
