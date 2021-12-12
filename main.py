@@ -1,4 +1,5 @@
 # Import
+from functools import _Descriptor
 import discord
 from discord.ext import commands
 import random
@@ -39,17 +40,9 @@ async def on_ready():
 
 @client.command()
 async def help(ctx):
-    embed = discord.Embed(title="Help")
+    embed = discord.Embed(title="Help", description="hey")
     embed.add_field(name="WIP", value="WIP")
     await ctx.send(embed=embed)
-
-# Methods
-
-# Used for constructing an embed on the fly
-def embed_construct(title: str, message: str):
-    em_out = discord.Embed(title=title) 
-    em_out.add_field(value=message)
-    return em_out
 
 # Commands
 # Custom message
@@ -126,18 +119,25 @@ async def meme(ctx):
 @client.command()
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member, *, reason=None):
+    if member == None:
+        await ctx.send(embed=discord.Embed(description='You have to supply a user!'))
+        return
     if reason==None:
       reason=" no reason provided"
-    await ctx.guild.kick(member, reason=reason)
-    await ctx.send(f'User {member.mention} has been kicked for {reason}')
+    await ctx.guild.kick(member, reason=reason + ' Moderator: {0}'.format(ctx.author))
+    await ctx.send(embed=discord.Embed(description='User {0} has been kicked!\nReason: {1}'.format(member.mention, reason)))
+
 #Ban command
 @client.command()
 @commands.has_permissions(ban_members=True)
 async def ban(ctx, member: discord.Member, *, reason=None):
+    if member == None:
+        await ctx.send(embed=discord.Embed(description='You have to supply a user!'))
+        return
     if reason==None:
         reason=" no reason provided"
-    await ctx.guild.ban(member, reason=reason)
-    await ctx.send(f'User {member.mention} has been kicked for {reason}')
+    await ctx.guild.ban(member, reason=reason + ' Moderator: {0}'.format(ctx.author))
+    await ctx.send(embed=discord.Embed(description='User {0} has been banned!\nReason: {1}'.format(member.mention, reason)))
 
 #Avatar
 @client.command(aliases=["av", "Av", "AV", "aV"])
@@ -186,4 +186,4 @@ async def age_error(ctx, error):
 
 
 # Run
-client.run("OTE1OTExNDM3NjM1OTQ0NDY4.Yaie_w.U87lcxWdojlRMLgau8mofBsZ2rE")
+client.run("OTE2Njg5NTEzNzQzNTIzODkw.Yatzow.BzJT_8lbLyuNP3BONowktb__XAw")
