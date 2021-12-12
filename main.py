@@ -10,6 +10,8 @@ import discord
 from discord.ext import commands
 from discord.message import Message
 
+from token_var import token
+
 timestamp = int(datetime.now().timestamp()) # printing time
 print(timestamp)
 
@@ -174,4 +176,4 @@ async def age_error(ctx, error):
         await ctx.reply(embed=discord.Embed(description="Please make sure you are using an integer."))
 
 # Run
-client.run("OTE2Njg5NTEzNzQzNTIzODkw.Yatzow.BzJT_8lbLyuNP3BONowktb__XAw")
+client.run(token)
