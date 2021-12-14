@@ -8,7 +8,7 @@ This is a discord bot for [Finnair |PTFS](https://discord.gg/SHQARCGJkM/).
 For more info, read the license.
 
 ## Can I contribute to this code?
-Sure! But please contact the developers or join the discord before/after submitting your PR.
+Sure! But please contact the developers on discord (Metolix#7905, miiiii.#0880) or join the discord before/after submitting your PR.
 
 ## Credit
 ### Code
